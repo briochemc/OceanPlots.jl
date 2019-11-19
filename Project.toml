@@ -1,0 +1,4 @@
+name = "OceanPlots"
+uuid = "0987ebc5-26fc-4e3e-9468-a071cee619ef"
+authors = ["Benoit Pasquier <pasquieb@uci.edu>"]
+version = "0.1.0"
