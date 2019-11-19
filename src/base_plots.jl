@@ -7,13 +7,17 @@
 
 Returns the filled contour plot of tracer x3D at depth level iz
 """
-function horizontal_slice(x3D, grd, iz)
+function horizontal_slice(x3D, grd, iz::Int)
     lon, lat = grd.lon .|> ustrip, grd.lat .|> ustrip
-    return contourf(lon, lat, view(x3D,:,:,iz)')
+    return contourf(lon, lat, view(x3D,:,:,iz))
 end
-function horizontal_slice(x::Vector, grd, iz) 
+function horizontal_slice(x::Vector, grd, iz::Int)
     x3D = rearrange_into_3Darray(x, grd)
     return horizontal_slice(x3D, grd, iz)
+end
+function horizontal_slice(x, grd, depth::Quantity)
+    iz = findfirst(grd.depth .≥ depth)
+    return horizontal_slice(x, grd, iz)
 end
 
 
@@ -39,9 +43,9 @@ Returns the filled contour plot of tracer x3D at longitude level ix
 """
 function zonal_slice(x3D, grd, ix)
     depth, lat = grd.depth .|> ustrip, grd.lat .|> ustrip
-    return contourf(lat, depth, view(x3D,:,ix,:)')
+    return contourf(lat, depth, view(x3D,:,ix,:), yflip=true)
 end
-function zonal_slice(x::Vector, grd, ix) 
+function zonal_slice(x::Vector, grd, ix)
     x3D = rearrange_into_3Darray(x, grd)
     return zonal_slice(x3D, grd, ix)
 end
